@@ -3,55 +3,19 @@
     <div class="h-screen w-screen flex relative">
       <!-- Left panel -->
 
-      <div>
-        This is a logo
-        <!-- <v-tabs
-          v-model="currentTab"
-          class="w-full h-full"
-          direction="vertical"
-          color="red">
-          <v-tab value="home">
-            <NuxtLink to="/">
-              <div>Home</div>
-            </NuxtLink>
-          </v-tab>
-          <v-tab value="one">
-            <NuxtLink to="/customers">
-              <div>Customers</div>
-            </NuxtLink>
-          </v-tab>
-          <v-tab value="two">
-            <NuxtLink to="/inventory">
-              <div>Inventory</div>
-            </NuxtLink>
-          </v-tab>
-          <v-tab value="three">
-            <NuxtLink to="/orders">
-              <div>Orders</div>
-            </NuxtLink>
-          </v-tab>
-        </v-tabs> -->
+      <div
+        class="w-1/5 flex flex-col bg-secondary rounded-2xl px-4 py-5 my-5 mx-4">
+        <div class="flex justify-center">This is a logo</div>
 
-        <!-- <div class="flex-col flex">
-          <NuxtLink to="/"
-            ><button :class="`${isHome ? 'bg-primary' : ''}`">
-              Home
-            </button></NuxtLink
-          >
-          <NuxtLink to="/customers"><button>Customer</button></NuxtLink>
-          <NuxtLink to="/inventory"><button>Inventory</button></NuxtLink>
-          <NuxtLink to="/orders"><button>Orders</button></NuxtLink>
-        </div> -->
-
-        <div class="flex-col flex">
+        <div class="container mx-auto flex flex-col justify-between">
           <div v-for="tab in tabArray">
             <NuxtLink :to="`/${tab.tabName === 'home' ? '' : tab.tabName}`">
-              <button
+              <v-btn
                 v-on="tab.active"
-                :class="`${tab.active ? 'bg-primary' : ''}`"
+                :class="`${tab.active ? 'bg-primary' : ''} w-full my-3`"
                 @click="tabCLicked(tab.tabName)">
                 {{ tab.tabName }}
-              </button>
+              </v-btn>
             </NuxtLink>
           </div>
         </div>
@@ -83,20 +47,30 @@
         Left panel
       </div> -->
       <!-- Body -->
-
-      <slot />
+      <div class="h-full w-full py-12 px-12">
+        <slot />
+      </div>
     </div>
   </v-app>
 </template>
 
 <script lang="ts" setup>
 import { ref } from "vue";
-import type { TabsInstance } from "element-plus";
 const isPanelHovered = ref(false);
 
-const tabPosition = ref<TabsInstance["tabPosition"]>("left");
-
-const currentTab = ref("");
+onMounted(() => {
+  if (route.name === "index") {
+    tabArray[0].active = true;
+  } else {
+    tabArray.forEach((tab) => {
+      if (tab.tabName === route.name) {
+        tab.active = true;
+      } else {
+        tab.active = false;
+      }
+    });
+  }
+});
 
 const route = useRoute();
 
@@ -112,7 +86,6 @@ watch(
         } else {
           tab.active = false;
         }
-        console.log(route.name);
       });
     }
   }
@@ -134,28 +107,10 @@ function tabCLicked(tabName: string) {
     }
   });
 }
-
-function handleMouseEnter() {
-  isPanelHovered.value = true;
-}
-function handleMouseLeave() {
-  isPanelHovered.value = false;
-}
 </script>
 
 <style>
 html {
   overflow: auto;
-}
-.demo-tabs > .el-tabs__content {
-  padding: 32px;
-  color: #6b778c;
-  font-size: 32px;
-  font-weight: 600;
-}
-
-.el-tabs--right .el-tabs__content,
-.el-tabs--left .el-tabs__content {
-  height: 100%;
 }
 </style>

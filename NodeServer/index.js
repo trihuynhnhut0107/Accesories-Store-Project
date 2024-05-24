@@ -6,6 +6,7 @@ const app = express();
 const PORT = 3001;
 
 app.use(express.json());
+app.use(cors());
 
 const db = mysql.createConnection({
   host: "localhost",
@@ -25,8 +26,6 @@ db.connect((err) => {
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
-
-app.use(cors());
 
 // Get all current products
 app.get("/currentproducts", (req, res) => {
@@ -90,6 +89,32 @@ app.get("/user/:id/cart", (req, res) => {
       res.json(results);
     }
   );
+});
+
+// Update a product
+app.put("/products/:id", (req, res) => {
+  const { id } = req.params;
+  const { TenSanPham, LoaiSanPham, MoTaSanPham, GiaNiemYet } = req.body;
+  console.log(id, TenSanPham, LoaiSanPham, MoTaSanPham, GiaNiemYet);
+  db.query(
+    "UPDATE SanPhamDangBan SET TenSanPham = ?, LoaiSanPham = ?, MoTaSanPham = ?, GiaNiemYet = ? WHERE MaSanPham = ?",
+    [TenSanPham, LoaiSanPham, MoTaSanPham, GiaNiemYet, id],
+    (err) => {
+      if (err) throw err;
+      res.json({ message: "Product updated successfully" });
+    }
+  );
+});
+
+// Delete a user
+app.delete("/products/:id", (req, res) => {
+  const { id } = req.params;
+  db.query("DELETE FROM SanPhamDangBan WHERE MaSanPham = ?", [id], (err) => {
+    if (err) {
+      res.json({ message: "Không thể xóa sản phẩm" });
+    }
+    res.json({ message: "Xóa sản phẩm thành công" });
+  });
 });
 
 // Create a new user
