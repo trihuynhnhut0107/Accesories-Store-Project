@@ -20,6 +20,7 @@ export default defineNuxtConfig({
       });
     },
     "@element-plus/nuxt",
+    "@pinia/nuxt",
   ],
   vite: {
     vue: {
@@ -27,6 +28,12 @@ export default defineNuxtConfig({
         transformAssetUrls,
       },
     },
+  },
+  pinia: {
+    autoImports: ["defineStore"],
+  },
+  imports: {
+    dirs: ["./stores"],
   },
   nitro: {
     prerender: {

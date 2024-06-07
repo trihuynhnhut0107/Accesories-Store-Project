@@ -1,5 +1,4 @@
 /** @type {import('tailwindcss').Config} */
-const colors = require("tailwindcss/colors");
 module.exports = {
   content: [
     "./components/**/*.{js,vue,ts}",
@@ -10,13 +9,13 @@ module.exports = {
     "./error.vue",
   ],
   theme: {
-    colors: {
-      primary: "#5570F1",
-      secondary: "#FFCC91",
-      black: "#1C1D22",
-      ...colors,
+    extend: {
+      colors: {
+        primary: "#5570F1",
+        secondary: "#FFCC91",
+        black: "#1C1D22",
+      },
     },
-    extend: {},
   },
   plugins: [],
   safelist: [

@@ -11,20 +11,23 @@
       <div class="flex justify-between items-center">
         <h1 class="text-2xl font-bold">Danh sách sản phẩm</h1>
       </div>
-      <div class="flex justify-end py-5">
-        <v-btn class="px-4 py-2 bg-secondary text-white">Thêm sản phẩm</v-btn>
+      <div class="flex justify-end py-2">
+        <NuxtLink to="/products/newProduct">
+          <v-btn class="px-4 py-2 bg-secondary text-white">Thêm sản phẩm</v-btn>
+        </NuxtLink>
       </div>
     </div>
 
-    <div>
+    <div class="h-fit w-fit">
       <v-data-table
         v-model="selectedRow"
         :headers="headers"
         :items="products"
         :search="searchTerm"
+        height="60vh"
         return-object
         select-strategy="single"
-        class="h-fit border">
+        class="h-fit w-fit border">
         <template v-slot:top>
           <div>
             <v-text-field

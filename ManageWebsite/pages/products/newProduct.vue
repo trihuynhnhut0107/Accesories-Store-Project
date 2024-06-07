@@ -1,9 +1,8 @@
 <template>
-  <div class="container mx-auto flex h-full w-full justify-center items-center">
-    <div class="flex flex-col w-1/2 space-y-5">
-      <h1 class="text-2xl font-bold mb-4">
-        Mã sản phẩm: {{ product.MaSanPham }}
-      </h1>
+  <div
+    class="container mx-auto flex h-full w-full justify-center items-center py-3">
+    <div class="flex flex-col w-1/2 space-y-3">
+      <h1 class="text-2xl font-bold mb-4">Thêm sản phẩm mới</h1>
 
       <v-text-field
         type="input"
@@ -21,12 +20,12 @@
         type="input"
         v-model="productInfo.SoLuongDaBan"
         label="Số lượng đã bán"
-        readonly="true" />
+        readonly />
       <v-text-field
         type="input"
         v-model="productInfo.SoLuongTrongCuaHang"
         label="Số lượng trong cửa hàng"
-        readonly="true" />
+        readonly />
       <v-text-field
         type="input"
         v-model="productInfo.MoTaSanPham"
@@ -41,27 +40,25 @@ definePageMeta({
   layout: "blank",
 });
 
-const productID = useRoute().params.id;
-console.log(productID);
 const {
-  data: product,
+  data: productID,
   pending,
   error,
   refresh,
 } = await useAsyncData("product", () =>
-  $fetch("http://localhost:3001/currentproducts/" + productID)
+  $fetch("http://localhost:3001/currentproducts/currentmaxid")
 );
 
 const productInfo = ref({
-  MaSanPham: product.value.MaSanPham,
-  TenSanPham: product.value.TenSanPham,
-  GiaNiemYet: product.value.GiaNiemYet,
-  LoaiSanPham: product.value.LoaiSanPham,
-  MoTaSanPham: product.value.MoTaSanPham,
-  SoLuongTrongCuaHang: product.value.SoLuongTrongCuaHang,
-  SoLuongDaBan: product.value.SoLuongDaBan,
-  MaKhuyenMai: product.value.MaKhuyenMai,
-  DoanhThu: product.value.DoanhThu,
+  MaSanPham: "",
+  TenSanPham: "",
+  GiaNiemYet: "",
+  LoaiSanPham: "",
+  MoTaSanPham: "",
+  SoLuongTrongCuaHang: "",
+  SoLuongDaBan: "",
+  MaKhuyenMai: "",
+  DoanhThu: "",
 });
 
 console.log(productInfo.value);
@@ -90,4 +87,4 @@ async function submitForm() {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style></style>

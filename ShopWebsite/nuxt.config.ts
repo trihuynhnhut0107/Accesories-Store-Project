@@ -19,8 +19,15 @@ export default defineNuxtConfig({
         config.plugins.push(vuetify({ autoImport: true }));
       });
     },
+    "@pinia/nuxt",
     //...
   ],
+  pinia: {
+    autoImports: ["defineStore"],
+  },
+  imports: {
+    dirs: ["./stores"],
+  },
   vite: {
     vue: {
       template: {
